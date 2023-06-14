@@ -26,7 +26,7 @@ class View():
       self.Frame_2 = Frame(self.root,bd=4, bg='white')
       self.Frame_2.place(relx=0.2, rely=0.2, relwidth=0.8, relheight=0.8)
       
-
+## auygsuygdyug
 
     def menu(self):
       botao=Button(self.root, text="Relatório dos Alugueis", fg="white", bg="#7092BE")
