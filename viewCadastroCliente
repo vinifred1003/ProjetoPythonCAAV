@@ -1,0 +1,74 @@
+from tkinter import *
+from controller import Controller
+
+def donothing():
+    pass
+
+class ViewCadastroCliente(Toplevel):
+    def __init__(self, janela_classe_visivel):
+        super().__init__(janela_classe_visivel)
+        self.janela_classe_visivel = janela_classe_visivel
+        self.janelinha()
+        self.Insercoes()
+        self.botao()
+
+
+    def janelinha(self):
+        self.title("Cadastro de Clientes")
+        self.geometry("600x300")
+        self.configure(background="#7092BE")
+        self.resizable(True, True)
+   
+    def Insercoes(self):
+        self.lbNome = Label(self, text="Nome", fg="white", bg="gray")
+        self.lbNome.place(relx=0.1, rely=0.15)
+
+        self.EntryNome = Entry(self, bd=2, bg="white")
+        self.EntryNome.place(relx=0.1, rely=0.25)
+
+        self.lbCNH = Label(self, text="CNH", fg="white", bg="gray")
+        self.lbCNH.place(relx=0.1, rely=0.35)
+
+        self.EntryCNH = Entry(self, bd=2, bg="white")
+        self.EntryCNH.place(relx=0.1, rely=0.45)
+
+        self.lbCPF = Label(self, text="CPF", fg="white", bg="gray")
+        self.lbCPF.place(relx=0.6, rely=0.15)
+
+        self.EntryCPF = Entry(self, bd=2, bg="white")
+        self.EntryCPF.place(relx=0.6, rely=0.25)
+
+        self.lbDN = Label(self, text="Data de Nascimento", fg="white", bg="gray")
+        self.lbDN.place(relx=0.6, rely=0.35)
+
+        self.EntryDN = Entry(self, bd=2, bg="white")
+        self.EntryDN.place(relx=0.6, rely=0.45)
+    
+   
+        self.lbLogradouro = Label(self, text="Logradouro", fg="white", bg="gray")
+        self.lbLogradouro.place(relx=0.1, rely=0.55)
+
+        self.EntryLogradouro = Entry(self, bd=2, bg="white")
+        self.EntryLogradouro.place(relx=0.1, rely=0.65)
+
+        self.lbNumero = Label(self, text="Número", fg="white", bg="gray")
+        self.lbNumero.place(relx=0.6, rely=0.55)
+
+        self.EntryNumero = Entry(self, bd=2, bg="white")
+        self.EntryNumero.place(relx=0.6, rely=0.65)
+   
+   
+    
+    def botao(self):
+        self.BotaoSalvar = Button(self, bd=2, text="Salvar", command=self.salvar_dados)
+        self.BotaoSalvar.place(relx=0.36, rely=0.8, relwidth=0.2, relheight=0.1)
+    
+    def salvar_dados(self):
+        modelo = self.EntryModelo.get()
+        placa = self.EntryPlaca.get()
+        marca = self.EntryMarca.get()
+        ano = self.EntryAno.get()
+
+        dados_carro = Controller(modelo, placa, marca, ano)
+        dados_carro.salvar_dados()
+
