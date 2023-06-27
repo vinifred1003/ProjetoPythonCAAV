@@ -1,14 +1,17 @@
-
-from Controller import CarroController
-from viewAlugueis import View
+from controller import Controller
+from viewCarros import ViewCarros
 from model import Model
-from viewCadastroCarro import ViewCadastroCarro
+import tkinter as tk
 
-Controller = CarroController()
-model = Model()
+root1 = tk.Tk()
 
-view = View(Controller)
+controller = Controller()
+model = Model(controller)
 
-Controller.set(view, model)
+view = ViewCarros(root1)
+
+controller.set(view, model)
 
 view.run()
+
+root1.mainloop()
