@@ -1,12 +1,13 @@
 import mysql.connector
-from Controller import CarroController
 
 class Model:
     def __init__(self, controller):
         self.controller = controller
         self.conexao = None
         self.cursor = None
-        self.create
+        self.resultado=None
+        self.conexaoBD()
+        self.cursorBD()
     def conexaoBD(self):
         self.conexao = mysql.connector.connect(
             host="localhost",
@@ -14,24 +15,23 @@ class Model:
             password="123456",
             database="aluguel_de_carro"
         )
-
+        
     def cursorBD(self):
-
         self.cursor = self.conexao.cursor()
         
-    def create(self):    
-        #Create
+    def create(self, modelo, placa, marca, ano):
         comando = f'INSERT INTO carros (modelo, marca, placa, ano) VALUES ("{modelo}","{marca}","{placa}","{ano}");'
         self.cursor.execute(comando)
         self.conexao.commit()
-        #Read
-    def read(self):
-      comando='SELECT * FROM carros;'
-      self.cursor.execute(comando)
-      self.resultado = self.cursor.fetchall
+        pass
     
-    def delete(self):    
-        #delete
+    def read(self):
+        comando = 'SELECT * FROM carros;'
+        self.cursor.execute(comando)
+        self.resultado = self.cursor.fetchall()
+        pass
+   
+    def delete(self, modelo):    
         comando = f'DELETE FROM carros WHERE modelo ="{modelo}";'
         self.cursor.execute(comando)
         self.conexao.commit()
