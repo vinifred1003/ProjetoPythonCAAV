@@ -31,7 +31,10 @@ class Model:
         self.resultado = self.cursor.fetchall()
         pass
    
-    def delete(self, modelo):    
-        comando = f'DELETE FROM carros WHERE modelo ="{modelo}";'
+    def delete(self, placa):    
+        self.cursor.execute("SET SQL_SAFE_UPDATES = 0")
+        comando = f'DELETE FROM carros WHERE placa ="{placa}" LIMIT 1;'
         self.cursor.execute(comando)
         self.conexao.commit()
+        self.cursor.execute("SET SQL_SAFE_UPDATES = 1")
+        pass
