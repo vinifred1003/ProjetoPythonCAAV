@@ -21,3 +21,5 @@ class Controller:
     self.model.read()
     return self.model.resultado
  
+  def excluir_dados(self, placa):
+    self.model.delete(placa)
