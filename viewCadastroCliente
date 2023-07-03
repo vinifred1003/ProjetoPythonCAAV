@@ -71,4 +71,3 @@ class ViewCadastroCliente(Toplevel):
 
         dados_carro = Controller(modelo, placa, marca, ano)
         dados_carro.salvar_dados()
-
