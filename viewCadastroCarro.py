@@ -1,6 +1,5 @@
 from tkinter import *
 from controller import Controller
-
 def donothing():
     pass
 
@@ -56,7 +55,7 @@ class ViewCadastroCarro(Toplevel):
         placa = self.EntryPlaca.get()
         marca = self.EntryMarca.get()
         ano = self.EntryAno.get()
+        self.verificador = 1
 
         dados_carro = Controller(modelo, placa, marca, ano)
         dados_carro.salvar_dados()
-
