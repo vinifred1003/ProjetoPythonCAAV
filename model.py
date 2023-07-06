@@ -19,22 +19,30 @@ class Model:
     def cursorBD(self):
         self.cursor = self.conexao.cursor()
         
+
     def create(self, modelo, placa, marca, ano):
         comando = f'INSERT INTO carros (modelo, marca, placa, ano) VALUES ("{modelo}","{marca}","{placa}","{ano}");'
         self.cursor.execute(comando)
         self.conexao.commit()
-        pass
+        self.read()
+        
     
     def read(self):
         comando = 'SELECT * FROM carros;'
         self.cursor.execute(comando)
         self.resultado = self.cursor.fetchall()
-        pass
+        print(self.resultado)
+        pass    
    
     def delete(self, placa):    
-        self.cursor.execute("SET SQL_SAFE_UPDATES = 0")
         comando = f'DELETE FROM carros WHERE placa ="{placa}" LIMIT 1;'
         self.cursor.execute(comando)
         self.conexao.commit()
-        self.cursor.execute("SET SQL_SAFE_UPDATES = 1")
         pass
+
+    def create_cliente(self, nome, CNH, CPF, data_nasc, logradouro,numero):
+        comando = f'INSERT INTO clientes (nome, CNH, CPF, data_nasc, logradouro,numero) VALUES ("{nome}","{CNH}","{CPF}","{data_nasc}", "{logradouro}","{numero}");'
+        self.cursor.execute(comando)
+        self.conexao.commit()
+        
+    
