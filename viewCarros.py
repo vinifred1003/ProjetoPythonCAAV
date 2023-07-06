@@ -1,9 +1,10 @@
-
+import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 from viewCadastroCarro import ViewCadastroCarro
 from controller import Controller
 from viewCadastroCliente import ViewCadastroCliente
+from viewClientes import ViewClientes
 class ViewCarros():
     def __init__(self, root1):
       self.root1 = root1
@@ -14,7 +15,13 @@ class ViewCarros():
       self.controller = Controller(None, None, None, None)
       self.framesCarros()
       self.atualizar()
-      self.limpa_campos()
+      self.funcao_clientes_ativa = tk.BooleanVar()
+      self.funcao_carros_ativa = tk.BooleanVar()
+      
+      self.funcao_clientes_ativa.set(False)  # Inicialmente, a função clientes está ativa
+      self.funcao_carros_ativa.set(True)
+       
+      self.framesCarros()
 
     def run(self):
       self.root1.title("Carros Cadastrados")
@@ -30,12 +37,13 @@ class ViewCarros():
       self.Filtros()
       self.Registros()
 
+
     def limpa_campos (self):
       self.EntryId.delete(0 , END)
       self.EntryModelo.delete(0 , END)
       self.EntryPlaca.delete(0 , END)
       self.EntryMarca.delete(0 , END)   
-   
+
     def Filtros(self):
       self.FrameFiltros = Frame(self.root1, bd=4, bg='gray', highlightthickness=3, highlightbackground='#3F48CC')
       self.FrameFiltros.place(relx=0.2, rely=0, relwidth=0.8, relheight=0.2)
@@ -67,12 +75,12 @@ class ViewCarros():
       self.BotaoDel =Button(self.FrameFiltros, text="Apagar", command=self.excluir_por_placa )
       self.BotaoDel.place(relx=0.9, rely=0.45) 
       
-      self.BotaoBuscar =Button(self.FrameFiltros, text="Buscar", command= self.limpa_campos )
+      self.BotaoBuscar =Button(self.FrameFiltros, text="Atualizar Tabela", command= self.excluir_por_placa)
       self.BotaoBuscar.place(relx=0.8, rely=0.45) 
 
     def Quit(self):
       self.root1.destroy()  
-    
+
     def esconder(self):
       self.withdraw() 
     
@@ -85,7 +93,7 @@ class ViewCarros():
       self.root3 = Toplevel()
       self.root3.withdraw()
       ViewCadastroCarro(self.root3)
-        
+
     def menu(self):
       self.FrameBotoes = Frame(self.root1, bd=4, bg='#3F48CC',height=1000,width=300)
       self.FrameBotoes.grid(column=0, row=0)
@@ -95,16 +103,16 @@ class ViewCarros():
 
       self.botaoEA=Button(self.FrameBotoes, text="Exibição dos Alugueis", fg="white", bg="#7092BE", highlightthickness=3 ,highlightbackground='#3F48CC' ,height=5,width=40)
 
-      self.botaoCCar=Button(self.FrameBotoes, text="Cadastro dos Carros" ,fg="white", bg="#7092BE", height=5,width=40,command=self.chamarCadastroCarro)
+      self.botaoCCar=Button(self.FrameBotoes, text="Cadastro de Carro" ,fg="white", bg="#7092BE", height=5,width=40,command=self.chamarCadastroCarro)
       self.botaoCCar.grid(column=0, row=2)
 
-      self.botaoCC= Button(self.FrameBotoes, text="Cadastro dos Clientes", fg="white", bg="#7092BE", height=5,width=40,command=self.chamarCadastroCliente)
+      self.botaoCC= Button(self.FrameBotoes, text="Cadastro de Cliente", fg="white", bg="#7092BE", height=5,width=40,command=self.chamarCadastroCliente)
       self.botaoCC.grid(column=0, row=3)
 
-      self.botaoEC=Button(self.FrameBotoes, text="Exibição dos Carros", fg="white", bg="#7092BE", height=5,width=40)
+      self.botaoEC=Button(self.FrameBotoes, text="Exibição dos Carros", fg="white", bg="#7092BE", height=5,width=40, command=self.ativar_funcao_carros)
       self.botaoEC.grid(column=0, row=4)
             
-      self.botaoC=Button(self.FrameBotoes, text="Exibição dos Clientes", fg="white", bg="#7092BE", height=5,width=40)
+      self.botaoC=Button(self.FrameBotoes, text="Exibição dos Clientes", fg="white", bg="#7092BE", height=5,width=40, command=self.ativar_funcao_clientes)
       self.botaoC.grid(column=0, row=5)
 
       self.botaoM=Button(self.FrameBotoes, text="Marketing", fg="white", bg="#7092BE", height=5,width=40)
@@ -116,6 +124,25 @@ class ViewCarros():
       self.botaoS=Button(self.FrameBotoes, text="Sair", fg="white", bg="#7092BE", height=4,width=40,command=self.Quit)
       self.botaoS.grid(column=0, row=8)
     
+    def ativar_funcao_clientes(self):
+      if not self.funcao_clientes_ativa.get():
+        self.funcao_clientes_ativa.set(True)
+        self.funcao_carros_ativa.set(False)
+        
+        view_clientes = ViewClientes(self.root1)  # Cria uma instância da classe ViewClientes
+        view_clientes.framesClientes()  # Chama o método framesClientes() na instância
+
+            
+    def ativar_funcao_carros(self):
+      if not self.funcao_carros_ativa.get():
+        self.funcao_carros_ativa.set(True)
+        self.funcao_clientes_ativa.set(False)
+            
+            # Atualiza a interface para exibir a função carros
+        self.FramePrincipal.destroy()
+        self.framesCarros()
+        self.atualizar()
+
     def atualizar(self):
       self.listR.delete(*self.listR.get_children())
       dados = self.controller.ler_dados()
@@ -131,7 +158,6 @@ class ViewCarros():
     def DuploClique(self, event):
       self.limpa_campos()
       self.listR.selection()
-      
      
       for n in self.listR.selection():
         col1, col2, col3, col4, col5 = self.listR.item(n,'values')
