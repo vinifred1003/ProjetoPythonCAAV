@@ -14,7 +14,7 @@ class ViewCadastroCliente(Toplevel):
 
 
     def janelinha(self):
-        self.title("Cadastro de Clientes")
+        self.title("Cadastro de Cliente")
         self.geometry("600x300")
         self.configure(background="#7092BE")
         self.resizable(True, True)
@@ -60,14 +60,17 @@ class ViewCadastroCliente(Toplevel):
    
     
     def botao(self):
-        self.BotaoSalvar = Button(self, bd=2, text="Salvar", command=self.salvar_dados)
+        self.BotaoSalvar = Button(self, bd=2, text="Salvar", command=self.salvar_cliente)
         self.BotaoSalvar.place(relx=0.36, rely=0.8, relwidth=0.2, relheight=0.1)
     
-    def salvar_dados(self):
-        modelo = self.EntryModelo.get()
-        placa = self.EntryPlaca.get()
-        marca = self.EntryMarca.get()
-        ano = self.EntryAno.get()
+    def salvar_cliente(self):
+        nome = self.EntryNome.get()
+        CNH = self.EntryCNH.get()
+        CPF = self.EntryCPF.get()
+        data_nasc = self.EntryDN.get()
+        logradouro = self.EntryLogradouro.get()
+        numero = self.EntryNumero.get()
 
-        dados_carro = Controller(modelo, placa, marca, ano)
-        dados_carro.salvar_dados()
+        dados_cliente = Controller(nome, CNH, CPF, data_nasc,logradouro ,numero)
+        dados_cliente.salvar_cliente()
+
